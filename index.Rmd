@@ -1,0 +1,142 @@
+---
+title: "Estatística para Ciências Sociais"
+subtitle: "UNIRIO"
+author: "prof. Steven Dutt Ross"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: flatly
+---
+
+<style>
+h2 {color: #1d5d82;}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(tibble)
+library(htmltools)
+library(DT)
+library(RcmdrMisc)
+library(magrittr)
+library(highcharter)
+library(lubridate)
+library(readxl)
+NOTAS <- read_excel("C:/Users/Steven/Dropbox/2019/2 semestre/RelatoriodeDiariodeClasseExcel_ADM.xlsx", 
+                    col_types = c("text", "text", "text", 
+                                  "text", "text", "date", "date", "date", 
+                                  "date", "date", "date", "date", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "text", "numeric", "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric", "numeric", "numeric", 
+                                  "numeric"))
+NOTAS<-NOTAS[1:49,]
+NOTAS <- tbl_df(NOTAS)
+NOTAS<-NOTAS[,1:17]
+names(NOTAS)
+NOTAS<-NOTAS %>% select(3,6:12,14,15,17)
+NOTAS$Total_Facebook<-round(NOTAS$Total_Facebook,2)
+NOTAS$Caso_Easton<-round(NOTAS$Caso_Easton,2)
+NOTAS$Avaliacao_1<-as.numeric(NOTAS$Avaliacao_1)
+NOTAS$Avaliacao_1<-round(NOTAS$Avaliacao_1,2)
+
+
+```
+
+Gráficos
+================================================================
+
+## Box Plot das notas da Pós-graduação em Engenharia Civil - UFF
+
+```{r grafico, echo=FALSE, warning=FALSE}
+
+highchart() %>% 
+  hc_title(text = "Gráfico 1 - <b> Boxplot</b> Estatística -Ciências Sociais - UNIRIO/2019.2",
+           margin = 20, align = "left",
+           style = list(color = "#5388fc", useHTML = TRUE)) %>% 
+  hc_add_series_boxplot(x = NOTAS$Avaliacao_1, nullColor = "#C0D890", color = "#1A237E", name = "Nota") %>% 
+  hc_tooltip(crosshairs = TRUE, backgroundColor = "#FCFFC5",
+             shared = TRUE, borderWidth = 5)  %>% 
+  hc_yAxis(minorGridLineWidth = 0, gridLineWidth = 0,
+           plotBands = list(
+             list(from = 7.57, to = 9.7, color = "rgba(11,156,49,0.8)",
+                  label = list(text = "25% dos dados")),
+             list(from = 6.14, to = 7.57, color = "rgba(11,156,49,0.6)",
+                  label = list(text = "25% dos dados")),
+             list(from = 0, to = 6.14, color = "rgba(11,156,49,0.4)",
+                  label = list(text = "25% dos dados")),
+             list(from = 0, to = 0, color = "rgba(11,156,49,0.2)",
+                  label = list(text = "25% dos dados"))
+           ))
+```
+
+Row
+----------------------------------------------------------------
+
+```{r grafico2, echo=FALSE, warning=FALSE}
+highchart() %>% 
+  hc_title(text = "Gráfico 2 - <b>Diagrama de Dispersão</b> das avaliações", style = list(color = "#5388fc", useHTML = TRUE)) %>%
+  hc_add_series_scatter(NOTAS$Total_Facebook, NOTAS$Caso_Easton) %>%
+  hc_xAxis(title = list(text = "Total facebook"))%>%
+  hc_yAxis(title = list(text = "Total Easton"))%>%
+  hc_add_theme(hc_theme_darkunica())
+
+
+```
+
+
+
+Notas
+=======================================================================
+
+-----------------------------------------------------------------------
+
+
+```{r notas, echo=FALSE}
+datatable(NOTAS)
+```
+
+
+
+Exemplos de Colaboração
+=======================================================================
+
+
+-----------------------------------------------------------------------
+
+```{r colab, echo=FALSE}
+#fotos<-list.files("C:/Users/Steven/Documents/GitHub/NotasAdm/img/")
+#fotos[3]
+#knitr::include_graphics(paste0("C:/Users/Steven/Documents/GitHub/NotasAdm/img/",fotos[3])) 
+```
+
+![](C:/Users/Steven/Documents/GitHub/NotasAdm/img/Dellano_e_Renato.png)
+  
+  
+![](C:/Users/Steven/Documents/GitHub/NotasAdm/img/Aline2.png)
+  
+![](C:/Users/Steven/Documents/GitHub/NotasAdm/img/Ana_Beatriz2.png)
+  
+
+![](C:/Users/Steven/Documents/GitHub/NotasAdm/img/Dellano7.png)  
+
+
+
+![](C:/Users/Steven/Documents/GitHub/NotasAdm/img/Renato_vilela.png)
+
+![](C:/Users/Steven/Documents/GitHub/NotasAdm/img/Vitor_Pimentel2.png)  
+
